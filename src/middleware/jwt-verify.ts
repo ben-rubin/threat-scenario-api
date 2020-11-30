@@ -31,6 +31,7 @@ const jwtVerify = (keys: IPublicKeys, clientId: string, iss: string) => {
                     return res.sendStatus(403)
                 }
             })
+        console.info('token accepted')
         next()
     }
 }

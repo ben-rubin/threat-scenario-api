@@ -8,12 +8,18 @@ import { NextFunction, Response } from 'express'
  * Sets req.offset
  */
 const paginate = (req: IndexRequest, res: Response, next: NextFunction) => {
-    const { page }: { page?: string } = req.query
+    const { page, limit }: { page?: string, limit?: string } = req.query
     const parsedPage = parseInt(page || '' , 10);
-    if (isNaN( parsedPage)) {
+    const parsedLimit = parseInt(limit || '' , 10);
+    if (isNaN(parsedPage)) {
         req.offset = 0
     } else {
         req.offset =  parsedPage ?  parsedPage * 10 - 10 : 0
+    }
+    if (isNaN(parsedLimit)) {
+        req.limit = 10
+    } else {
+        req.limit = parsedLimit
     }
     next()
 }

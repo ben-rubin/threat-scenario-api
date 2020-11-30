@@ -13,9 +13,9 @@ const indexQuery = `
            (ts.impact + ts.likelihood) / 2 risk_level
     FROM threat_scenario.threat_scenario ts
         JOIN threat_scenario.classification c ON ts.classification_id = c.id
-    LIMIT 10 OFFSET ?;`
+    LIMIT ? OFFSET ?;`
 
-const findAll = (offset: number) => query(indexQuery, [offset])
+const findAll = (offset: number = 0, limit: number = 10) => query(indexQuery, [limit, offset])
 
 const getQuery: string = `
     SELECT ts.id,
@@ -45,8 +45,8 @@ const updateQuery = `
 
 const update = (id: number, data: IThreatScenarioSchema): Promise<any> => {
     const { title, description, related_asset, classification_id, impact, likelihood } = data
-    // @ts-ignore
     return query(updateQuery, [
+        // @ts-ignore
         title, description, related_asset, classification_id, impact, likelihood, id
     ])
 }
@@ -58,8 +58,8 @@ const insertQuery = `
 
 const insert = (data: IThreatScenarioSchema): Promise<any> => {
     const { title, description, related_asset, classification_id, impact, likelihood } = data
-    // @ts-ignore
     return query(insertQuery, [
+        // @ts-ignore
         title, description, related_asset, classification_id, impact, likelihood
     ])
 }
@@ -70,10 +70,15 @@ const remove = (id: number) => {
     return query(deleteQuery, [id])
 }
 
+const getCount = () => {
+    return query('SELECT COUNT(*) AS count FROM threat_scenario.threat_scenario;')
+}
+
 export default {
     findAll,
     findOne,
     update,
     insert,
     remove,
+    getCount,
 }

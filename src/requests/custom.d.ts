@@ -2,6 +2,7 @@ import { Request } from 'express'
 
 export interface IndexRequest extends Request {
     offset: number
+    limit: number
     data: any
 }
 

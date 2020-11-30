@@ -4,9 +4,12 @@ import threatScenario from '../models/threat-scenario-model'
 
 const index = async (req: IndexRequest, res: Response) => {
     try {
-        const data = await threatScenario.findAll(req.offset)
-        res.send(data)
+        const data = await threatScenario.findAll(req.offset, req.limit)
+        const total = await threatScenario.getCount()
+        const meta = { total: total[0]['count'] , start: req.offset, limit: req.limit }
+        res.send({ data, meta })
     } catch (e) {
+        console.error(e)
         res.status(500).end()
     }
 }
@@ -51,6 +54,7 @@ const remove = async (req: PostRequest, res: Response) => {
     try {
         const id = parseInt(req.params.id, 10)
         await threatScenario.remove(id)
+        res.sendStatus(200)
     } catch (e) {
         res.status(500).end()
     }

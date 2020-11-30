@@ -3,7 +3,7 @@ import mysqlConfig from '../config/mysql-config'
 
 const connectionPool = require('../util/mysql-connection')(mysqlConfig)
 
-const runQuery = (query: string, parameters: [string | number]): Promise<any[]> =>
+const runQuery = (query: string, parameters?: string|number[]): Promise<any[]> =>
     new Promise(async (resolve, reject) => {
         try {
             const pool: mysql.Pool = await connectionPool()
