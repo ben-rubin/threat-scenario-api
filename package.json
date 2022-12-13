@@ -20,7 +20,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-validate": "0.0.8",
     "express-validator": "^6.6.1",
     "joi": "^17.2.1",
